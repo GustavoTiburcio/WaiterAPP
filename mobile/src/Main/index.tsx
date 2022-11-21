@@ -8,6 +8,7 @@ import { Menu } from '../components/Menu';
 import { TableModal } from '../components/TableModal';
 import { cartItem } from '../types/CartItem';
 import { Product } from '../types/Product';
+import { Category } from '../types/Category';
 import {
   Container,
   CategoriesContainer,
@@ -18,6 +19,7 @@ import {
 } from './styles';
 
 import { products as mockProducts } from '../mocks/products';
+import { categories as mockCategories } from '../mocks/categories';
 import { Empty } from '../components/Icons/Empty';
 import { Text } from '../components/Text';
 
@@ -26,7 +28,8 @@ export function Main() {
   const [selectedTable, setSelectedTable] = useState('');
   const [cartItems, setCartItems] = useState<cartItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [products, setProducts] = useState<Product[]>(mockProducts);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   function handleSaveTable(table: string) {
     setSelectedTable(table);
@@ -107,7 +110,7 @@ export function Main() {
         ) : (
           <>
             <CategoriesContainer>
-              <Categories />
+              <Categories categories={categories} />
             </CategoriesContainer>
 
             {products.length > 0 ? (
