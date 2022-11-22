@@ -6,6 +6,7 @@ import { Product } from '../../types/Product';
 import { api } from '../../utils/api';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { Button } from '../Button';
+import { FontAwesome5 } from '../Icons/FontAwesome5';
 import { MinusCircle } from '../Icons/MinusCircle';
 import { PlusCircle } from '../Icons/PlusCircle';
 import { OrderConfirmedModal } from '../OrderConfirmedModal';
@@ -19,7 +20,8 @@ import {
   QuantityContainer,
   ProductDetails,
   Summary,
-  TotalContainer
+  TotalContainer,
+  CartContainer
 } from './styles';
 
 interface CartProps {
@@ -33,6 +35,7 @@ interface CartProps {
 export function Cart({ cartItems, onAdd, onDecrement, onConfirmOrder, selectedTable }: CartProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [showCart, setShowCart] = useState(false);
 
   const total = cartItems.reduce((acc, cartItem) => {
     return acc + cartItem.quantity * cartItem.product.price;
@@ -67,52 +70,63 @@ export function Cart({ cartItems, onAdd, onDecrement, onConfirmOrder, selectedTa
         visible={isModalVisible}
         onOk={handleOk}
       />
+      <CartContainer onPress={() => setShowCart(!showCart)} disabled={cartItems.length === 0}>
+        <FontAwesome5 name='shopping-cart' size={25} color='#FFF' />
+        <Text size={18} weight='600' color='#FFF' style={{ marginLeft: 12 }}>
+          Carrinho
+        </Text>
+      </CartContainer>
 
-      {cartItems.length > 0 && (
-        <FlatList
-          data={cartItems}
-          keyExtractor={cartItem => cartItem.product._id}
-          showsVerticalScrollIndicator={false}
-          style={{ marginBottom: 20, maxHeight: 150 }}
-          renderItem={({ item: cartItem }) => (
-            <Item>
-              <ProductContainer>
-                <Image
-                  source={{
-                    uri: `http://192.168.25.26:3001/uploads/${cartItem.product.imagePath}`
-                  }}
-                />
+      {showCart && (
+        <>
+          {cartItems.length > 0 && (
+            <FlatList
+              data={cartItems}
+              keyExtractor={cartItem => cartItem.product._id}
+              showsVerticalScrollIndicator={false}
+              style={{ marginBottom: 20, maxHeight: 150 }}
+              renderItem={({ item: cartItem }) => (
+                <Item>
+                  <ProductContainer>
+                    <Image
+                      source={{
+                        uri: `http://192.168.25.26:3001/uploads/${cartItem.product.imagePath}`
+                      }}
+                    />
 
-                <QuantityContainer>
-                  <Text size={14} color='#666'>
-                    {cartItem.quantity}x
-                  </Text>
-                </QuantityContainer>
-                <ProductDetails>
-                  <Text size={14} weight='600'>{cartItem.product.name}</Text>
-                  <Text size={14} color='#666' style={{ marginTop: 4 }}>
-                    {formatCurrency(cartItem.product.price)}
-                  </Text>
-                </ProductDetails>
-              </ProductContainer>
-              <Actions>
-                <TouchableOpacity
-                  style={{ marginRight: 24 }}
-                  onPress={() => onAdd(cartItem.product)}
-                >
-                  <PlusCircle />
-                </TouchableOpacity>
+                    <QuantityContainer>
+                      <Text size={14} color='#666'>
+                        {cartItem.quantity}x
+                      </Text>
+                    </QuantityContainer>
+                    <ProductDetails>
+                      <Text size={14} weight='600'>{cartItem.product.name}</Text>
+                      <Text size={14} color='#666' style={{ marginTop: 4 }}>
+                        {formatCurrency(cartItem.product.price)}
+                      </Text>
+                    </ProductDetails>
+                  </ProductContainer>
+                  <Actions>
+                    <TouchableOpacity
+                      style={{ marginRight: 24 }}
+                      onPress={() => onAdd(cartItem.product)}
+                    >
+                      <PlusCircle />
+                    </TouchableOpacity>
 
-                <TouchableOpacity
-                  onPress={() => onDecrement(cartItem.product)}
-                >
-                  <MinusCircle />
-                </TouchableOpacity>
-              </Actions>
-            </Item>
+                    <TouchableOpacity
+                      onPress={() => onDecrement(cartItem.product)}
+                    >
+                      <MinusCircle />
+                    </TouchableOpacity>
+                  </Actions>
+                </Item>
+              )}
+            />
           )}
-        />
+        </>
       )}
+
 
       <Summary>
         <TotalContainer>

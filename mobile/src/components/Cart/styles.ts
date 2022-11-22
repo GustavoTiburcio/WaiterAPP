@@ -1,5 +1,15 @@
 import styled from 'styled-components/native';
 
+export const CartContainer = styled.TouchableOpacity`
+  background: ${({ disabled }) => disabled ? '#999' : '#D73035'};
+  height: 50px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+`;
+
 export const Item = styled.View`
   padding: 8px 0px;
   flex-direction: row;
@@ -8,11 +18,11 @@ export const Item = styled.View`
 `;
 
 export const ProductContainer = styled.View`
-flex-direction: row;
+  flex-direction: row;
 `;
 
 export const Actions = styled.View`
-flex-direction: row;
+  flex-direction: row;
 `;
 
 export const Image = styled.Image`

@@ -14,7 +14,6 @@ mongoose.connect('mongodb://localhost:27017')
   .then(() => {
     const port = 3001;
 
-
     app.use((req, res, next) => {
       res.setHeader('Access-Control-Allow-Origin', '*');//Tudo
       res.setHeader('Access-Control-Allow-Methods', '*');
@@ -26,7 +25,7 @@ mongoose.connect('mongodb://localhost:27017')
     app.use(router);
 
     server.listen(port, () => {
-      console.log(`Servidor rodando em http://localhost:${port}`);
+      console.log(`Servidor rodando em http://192.168.25.26:${port}`);
     });
   })
   .catch(() => console.log('Erro ao conectar no mongodb'));
