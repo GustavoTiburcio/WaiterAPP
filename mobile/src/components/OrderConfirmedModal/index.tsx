@@ -22,7 +22,7 @@ export function OrderConfirmedModal({ visible, onOk }: OrderConfirmedModalProps)
         <CheckCircle />
 
         <Text size={20} weight='600' color='#FFF' style={{ marginTop: 12 }}>
-          Pedido confirmado
+          Pedido enviado
         </Text>
         <Text color='#FFF' opacity={0.9} style={{ marginTop: 4 }}>
           O pedido já entrou na fila de produção!
