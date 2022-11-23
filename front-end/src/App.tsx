@@ -14,7 +14,7 @@ export function App() {
       <Orders />
       <ToastContainer
         position='bottom-center'
-        theme="colored"
+        theme='colored'
       />
     </>
   );
